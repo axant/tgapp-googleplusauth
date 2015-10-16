@@ -53,7 +53,8 @@ def login_callback(request, remember):
     </script>''' % dict(came_from=quote_plus(request.url), remember=remember)
 
 
-def login_button(client_id, scope=None, data_button='', data_cookiepolicy='single_host_origin', remember='', **kwargs):
+def login_button(client_id, scope=None, data_button='', data_cookiepolicy='single_host_origin', remember='',
+                 callback='', **kwargs):
     #  https://www.googleapis.com/auth/plus.login
     default_scope = "https://www.googleapis.com/auth/userinfo.email"
     if not scope:
@@ -67,13 +68,14 @@ def login_button(client_id, scope=None, data_button='', data_cookiepolicy='singl
         class="g-signin"
         data-clientid="%(client_id)s"
         data-cookiepolicy="%(data_cookiepolicy)s"
-        data-callback="signinCallback"
+        data-callback="%(callback)s"
 
         %(data_button)s
 
         >
       </span>
-    </span>''' % dict(client_id=client_id, data_cookiepolicy=data_cookiepolicy, scope=scope, data_button=data_button)
+    </span>''' % dict(client_id=client_id, data_cookiepolicy=data_cookiepolicy, scope=scope, data_button=data_button,
+                      callback=callback if request.identity and request.identity['user'] else 'signinCallback')
     #  data-width="iconOnly"
     script = load_js_sdk() + login_callback(request, remember)
 
