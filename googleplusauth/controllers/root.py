@@ -7,10 +7,8 @@ import json
 
 from googleplusauth import model
 from googleplusauth.lib.utils import redirect_on_fail, login_user, has_googletoken_expired, add_param_to_query_string
-from googleplusauth.model import DBSession, provider
 from tgext.pluggable import app_model
 from datetime import datetime
-
 from urllib import urlopen
 
 
@@ -33,12 +31,11 @@ class RootController(TGController):
             answer = json.loads(gplusanswer.read())
 
             if answer['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-                print "iss wrong"
+                flash(_("Login error"), "error")
                 return redirect_on_fail()
             if not answer['sub']:
-                print "missing sub"
+                flash(_("Login error"), "error")
                 return redirect_on_fail()
-
 
             google_id = answer['sub']
             google_token_expiry = datetime.fromtimestamp(int(answer['exp']))
@@ -49,17 +46,17 @@ class RootController(TGController):
         finally:
             gplusanswer.close()
 
-        user = model.GoogleAuth.user_by_google_id(google_id)
+        ga_user = model.GoogleAuth.ga_user_by_google_id(google_id)
 
-        if user:
+        if ga_user:
             #If the user already exists, just login him.
-            login_user(user.user_name, remember)
+            login_user(ga_user.user.user_name, remember)
 
-            if has_googletoken_expired(user):
-                user.googleauth.access_token = token
-                user.googleauth.access_token_expiry = google_token_expiry
+            if has_googletoken_expired(ga_user):
+                ga_user.access_token = token
+                ga_user.access_token_expiry = google_token_expiry
 
-            #  hooks.notify('googleplusauth.on_login', args=(answer, u))
+            hooks.notify('googleplusauth.on_login', args=(answer, ga_user.user))
             redirect_to = add_param_to_query_string(config.sa_auth['post_login_url'], 'came_from', came_from)
 
             return redirect(redirect_to)
@@ -69,10 +66,9 @@ class RootController(TGController):
                            display_name=answer['email'],
                            email_address=answer['email'],
                            password=token)
-        DBSession.add(u)
 
         #  Create new user
-        #  hooks.notify('googleplusauth.on_registration', args=(answer, u))
+        hooks.notify('googleplusauth.on_registration', args=(answer, u))
 
         #  Create new Google Plus Login User for store data
         gpl = model.GoogleAuth(
@@ -82,13 +78,18 @@ class RootController(TGController):
             just_connected=True,
             access_token=token,
             access_token_expiry=google_token_expiry,
-            profile_picture=''
+            profile_picture=answer['picture']
         )
 
-        DBSession.add(gpl)
+        model.provider.add_user(u)
 
         #  Now login and redirect to request page
         login_user(u.user_name, remember)
         redirect_to = add_param_to_query_string(config.sa_auth['post_login_url'], 'came_from', came_from)
 
         return redirect(redirect_to)
+
+    @expose()
+    def login_error(self):
+        flash(_("Login error"), "error")
+        return redirect_on_fail()

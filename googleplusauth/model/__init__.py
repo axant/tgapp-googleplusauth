@@ -10,7 +10,6 @@ GoogleAuth = None
 
 
 def init_model(app_session):
-    print 'INIT MODEL'
     DBSession.configure(app_session)
 
 
@@ -47,5 +46,15 @@ class PluggableSproxProvider(object):
             return getattr(self, item)
 
         return getattr(self._provider, item)
+
+    def add_user(self, u):
+        if self._provider is None:
+            self._configure_provider()
+        if tg.config.get('use_sqlalchemy', False):
+            self._provider.session.add(u)
+        elif tg.config.get('use_ming', False):
+            self._provider.session.flush_all()
+        else:
+            raise ValueError('googlePlusAuth should be used with sqlalchemy or ming')
 
 provider = PluggableSproxProvider()

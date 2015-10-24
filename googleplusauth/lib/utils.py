@@ -1,14 +1,16 @@
+# -*- coding: utf-8 -*-
+
 import tg
 from datetime import datetime
 from urlparse import urlparse, parse_qs, urlunparse
 from urllib import urlencode
+
 
 def redirect_on_fail():
     return tg.redirect(tg.request.referer or tg.config.sa_auth['post_logout_url'])
 
 
 def login_user(user_name, expire=None):
-    print "login_user"
     request = tg.request
     response = tg.response
 
@@ -25,10 +27,7 @@ def login_user(user_name, expire=None):
 
 
 def has_googletoken_expired(user):
-    if not user.googleplusauth:
-        return True
-
-    expire = user.googleplusauth.access_token_expiry
+    expire = user.access_token_expiry
     if not expire:
         return True
 
