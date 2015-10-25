@@ -14,19 +14,28 @@ def bold(text):
 
 
 def load_js_sdk():
-    return '''<script src="https://apis.google.com/js/client:platform.js?onload=renderButton"></script>'''
+    return '''<script src="https://apis.google.com/js/client:platform.js"></script>'''
 
 
-def login_button(client_id, scope=None, data_button='', data_cookiepolicy='single_host_origin', remember='',
-                 callback='', **kwargs):
-    #  https://www.googleapis.com/auth/plus.login
+def login_button(client_id, scope=None, data_cookiepolicy=None, img_btn_login=None, remember=None, **kwargs):
+
+    if not data_cookiepolicy:
+        data_cookiepolicy = "single_host_origin"
+
+    if not img_btn_login:
+        img_btn_login = "https://developers.google.com/identity/images/sign-in-with-google.png"
+
     default_scope = "https://www.googleapis.com/auth/userinfo.email"
     if not scope:
         scope = default_scope
     else:
         scope += " "+default_scope
     html = '''
-    <button class="btn btn-default" onclick="perform_google_login()" id="gConnect">Login Google</button>
+    <div id="button-container>
+        <div id="google-login-button" style="cursor: pointer;" onclick="perform_google_login()">
+            <img id="img-login" src='%(img_btn_login)s' alt='Google Login' />
+        </div>
+    </div>
     <script type="text/javascript">
     var auth2 = {};
     var helper = (function() {
@@ -41,7 +50,7 @@ def login_button(client_id, scope=None, data_button='', data_cookiepolicy='singl
           console.log("Auth Result:");
 
           if (authResult.isSignedIn.get()) {
-            $('#gConnect').hide();
+            $('#google-login-button').hide();
             helper.profile();
           } else if (authResult['error'] ||
               authResult.currentUser.get().getAuthResponse() == null) {
@@ -49,8 +58,7 @@ def login_button(client_id, scope=None, data_button='', data_cookiepolicy='singl
               console.log('There was an error: ' + authResult['error']);
               var loginUrl = "/googleplusauth/login_error";
               window.location = loginUrl;
-
-              $('#gConnect').show();
+              $('#google-login-button').show();
           }
         },
 
@@ -61,7 +69,6 @@ def login_button(client_id, scope=None, data_button='', data_cookiepolicy='singl
           // Revoke the access token.
           auth2.disconnect();
         },
-
 
         /**
          * Gets the currently signed in user's profile data.
@@ -85,7 +92,6 @@ def login_button(client_id, scope=None, data_button='', data_cookiepolicy='singl
           }
           window.location = loginUrl;
         }
-
       };
     })();
 
@@ -138,7 +144,12 @@ def login_button(client_id, scope=None, data_button='', data_cookiepolicy='singl
       }
     }
     </script>
-        ''' % dict(client_id=client_id, data_cookiepolicy=data_cookiepolicy, scope=scope, remember=remember, came_from=quote_plus(request.url))
+        ''' % dict(img_btn_login=img_btn_login,
+                   client_id=client_id,
+                   data_cookiepolicy=data_cookiepolicy,
+                   scope=scope,
+                   remember=remember,
+                   came_from=quote_plus(request.url))
 
     script = load_js_sdk()
 
