@@ -30,3 +30,7 @@ class GoogleAuth(DeclarativeBase):
     def ga_user_by_google_id(cls, google_id):
         google_auth_user = DBSession.query(cls).filter_by(google_id=google_id).first()
         return google_auth_user
+
+    @classmethod
+    def googleplusauth_user(cls, user_id):
+        return DBSession.query(cls).filter_by(user_id=user_id).first()

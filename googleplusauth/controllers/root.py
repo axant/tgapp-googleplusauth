@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 from tg import TGController, config, hooks
-from tg import expose, flash, require, url, lurl, request, redirect, validate
+from tg import expose, flash, redirect
 from tg.i18n import ugettext as _
 import json
-
 from googleplusauth import model
 from googleplusauth.lib.utils import redirect_on_fail, login_user, has_googletoken_expired, add_param_to_query_string
 from tgext.pluggable import app_model
@@ -20,7 +19,7 @@ class RootController(TGController):
         return dict(sample=user)
 
     @expose()
-    def login(self, token, came_from=None, remember=''):
+    def login(self, token, came_from=None, remember=None):
         gplusanswer = urlopen('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=%s' % token)
         google_id = None
         google_token_expiry = None

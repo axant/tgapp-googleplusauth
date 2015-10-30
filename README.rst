@@ -51,6 +51,7 @@ your users log into your application using Google:
         The ``remember`` parameter can be used to log the user with an expiration date instead
         of using a session cookie, so that the session can last longer than the browser tab life.
 
+If you want customize the button use
 
 Available Hooks
 ----------------------
@@ -59,20 +60,22 @@ googleplusauth makes available a some hooks which will be
 called during some actions to alter the default
 behavior of the appplications:
 
-    * **googleplusauth.on_registration(google_response, user)** -> Runs when it is registering a new user from google login, permits to add additional data to the user.
-    * **googleplusauth.on_login(google_response, user)** -> Runs when user perform google login, permits to update the user data.
+    * **googleplusauth.on_registration(google_response, user)** -> Runs when it is registering a new user from google
+     login, permits to add additional data to the user.
+    * **googleplusauth.on_login(google_response, user)** -> Runs when user perform google login, permits to update the
+     user data.
 
 
-Exposed Partials
-----------------------
+Google Id and Profile Picture
+-----------------------
 
-googleplusauth exposes a bunch of partials which can be used
-to render pieces of the blogging system anywhere in your
-application:
+If you use SQL when using googleplusauth users will have a new related entity called ``googleplusauth``.
+Accessing ``user.googleplusauth`` it is possible to access the user ``user.googleplusauth.google_id``
+and ``user.googleplusauth.profile_picture`` and more.
 
-Exposed Templates
---------------------
+If you use MongoDB, you can get the releated googleplusauth field with the ``googleplusauth_user(user_object_id)``
+method, but the  ``global_models=True`` options when plug is necessary.
+For example in your controller::
 
-The templates used by registration and that can be replaced with
-*tgext.pluggable.replace_template* are:
+    app_model.GoogleAuth.googleplusauth_user(ObjectID_of_the_user)
 
