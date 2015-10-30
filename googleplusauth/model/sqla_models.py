@@ -19,7 +19,7 @@ class GoogleAuth(DeclarativeBase):
     just_connected = Column(Boolean, default=False, nullable=False)
     profile_picture = Column(String(512), nullable=True)
 
-    user_id = Column(Integer, ForeignKey(primary_key(app_model.User)), nullable=False)
+    _user_id = Column(Integer, ForeignKey(primary_key(app_model.User)), nullable=False)
     user = relation(app_model.User, backref=backref('googleplusauth', uselist=False, cascade='all, delete-orphan'))
 
     google_id = Column(Unicode(255), nullable=False, index=True, unique=True)
@@ -33,4 +33,4 @@ class GoogleAuth(DeclarativeBase):
 
     @classmethod
     def googleplusauth_user(cls, user_id):
-        return DBSession.query(cls).filter_by(user_id=user_id).first()
+        return DBSession.query(cls).filter_by(_user_id=user_id).first()
