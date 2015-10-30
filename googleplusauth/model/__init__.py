@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import tg
-from tgext.pluggable import PluggableSession
+from tgext.pluggable import PluggableSession, app_model
 
 log = logging.getLogger('tgapp-tgappgooglePlusAuth')
 
@@ -19,6 +19,9 @@ def import_models():
         from .sqla_models import GoogleAuth
     elif tg.config.get('use_ming', False):
         from .ming_models import GoogleAuth
+        app_model.User.googleplusauth = property(
+            lambda o: GoogleAuth.googleplusauth_user(o._id)
+        )
 
 
 class PluggableSproxProvider(object):
@@ -41,20 +44,6 @@ class PluggableSproxProvider(object):
         if self._provider is None:
             self._configure_provider()
 
-        if hasattr(self, item):
-            # _configure_provider might add additional attributes
-            return getattr(self, item)
-
         return getattr(self._provider, item)
-
-    def add_user(self, u):
-        if self._provider is None:
-            self._configure_provider()
-        if tg.config.get('use_sqlalchemy', False):
-            self._provider.session.add(u)
-        elif tg.config.get('use_ming', False):
-            self._provider.session.flush_all()
-        else:
-            raise ValueError('googlePlusAuth should be used with sqlalchemy or ming')
 
 provider = PluggableSproxProvider()

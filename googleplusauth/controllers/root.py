@@ -28,7 +28,6 @@ class RootController(TGController):
 
         try:
             answer = json.loads(gplusanswer.read())
-
             if answer['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
                 flash(_("Login error"), "error")
                 return redirect_on_fail()
@@ -61,13 +60,15 @@ class RootController(TGController):
             return redirect(redirect_to)
 
         # User not present
-        u = app_model.User(user_name='g+:%s' % google_id,
-                           display_name=answer['email'],
-                           email_address=answer['email'],
-                           password=token)
-
+        user_dict = dict(
+            user_name='g+:%s' % google_id,
+            email_address=answer['email'],
+            password=token,
+            display_name=answer['email']
+        )
         #  Create new user
-        hooks.notify('googleplusauth.on_registration', args=(answer, u))
+        hooks.notify('googleplusauth.on_registration', args=(answer, user_dict))
+        u = model.provider.create(app_model.User, user_dict)
 
         #  Create new Google Plus Login User for store data
         gpl = model.GoogleAuth(
@@ -80,7 +81,6 @@ class RootController(TGController):
             profile_picture=answer['picture']
         )
 
-        model.provider.add_user(u)
 
         #  Now login and redirect to request page
         login_user(u.user_name, remember)

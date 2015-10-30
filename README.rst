@@ -51,7 +51,13 @@ your users log into your application using Google:
         The ``remember`` parameter can be used to log the user with an expiration date instead
         of using a session cookie, so that the session can last longer than the browser tab life.
 
-If you want customize the button use
+This is the html of the button, if you want customize the button style: ::
+
+    <div id="button-container">
+        <div id="google-login-button" style="cursor: pointer;" onclick="perform_google_login()">
+            <img id="img-login" src='%(img_btn_login)s' alt='Google Login' />
+        </div>
+    </div>
 
 Available Hooks
 ----------------------
@@ -61,7 +67,7 @@ called during some actions to alter the default
 behavior of the appplications:
 
     * **googleplusauth.on_registration(google_response, user)** -> Runs when it is registering a new user from google
-     login, permits to add additional data to the user.
+     login, permits to add or modify additional data to the user.
     * **googleplusauth.on_login(google_response, user)** -> Runs when user perform google login, permits to update the
      user data.
 
@@ -69,13 +75,6 @@ behavior of the appplications:
 Google Id and Profile Picture
 -----------------------
 
-If you use SQL when using googleplusauth users will have a new related entity called ``googleplusauth``.
+Users will have a new related entity called ``googleplusauth``.
 Accessing ``user.googleplusauth`` it is possible to access the user ``user.googleplusauth.google_id``
 and ``user.googleplusauth.profile_picture`` and more.
-
-If you use MongoDB, you can get the releated googleplusauth field with the ``googleplusauth_user(user_object_id)``
-method, but the  ``global_models=True`` options when plug is necessary.
-For example in your controller::
-
-    app_model.GoogleAuth.googleplusauth_user(ObjectID_of_the_user)
-

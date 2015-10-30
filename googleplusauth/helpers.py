@@ -29,7 +29,7 @@ def login_button(client_id, scope=None, data_cookiepolicy=None, img_btn_login=No
     else:
         scope += " "+default_scope
     html = '''
-    <div id="button-container>
+    <div id="button-container">
         <div id="google-login-button" style="cursor: pointer;" onclick="perform_google_login()">
             <img id="img-login" src='%(img_btn_login)s' alt='Google Login' />
         </div>
