@@ -21,12 +21,12 @@ except IOError:
 
 setup(
     name='tgapp-googlePlusAuth',
-    version='0.1',
-    description='',
+    version='0.0.1',
+    description='Google Authentication for TurboGears2',
     long_description=README,
-    author='Axant Team',
+    author='AXANT',
     author_email='tech@axant.it',
-    #url='',
+    url='http://bitbucket.org/axant/tgapp-googleplusauth',
     keywords='turbogears2.application',
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
