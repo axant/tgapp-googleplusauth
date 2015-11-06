@@ -1,5 +1,5 @@
 About googleplusauth
--------------------------
+--------------------
 
 googleplusauth is a Pluggable application for TurboGears2.
 
@@ -7,7 +7,7 @@ It aims at making easy to implement authentication and registration with
 Google in any TurboGears2 application.
 
 Installing
--------------------------------
+-----------
 
 googleplusauth can be installed both from pypi or from bitbucket::
 
@@ -16,7 +16,7 @@ googleplusauth can be installed both from pypi or from bitbucket::
 should just work for most of the users
 
 Plugging googleplusauth
-----------------------------
+-----------------------
 
 In your application *config/app_cfg.py* import **plug**::
 
@@ -35,7 +35,8 @@ Googleplushaut Helpers
 googleplusauth provides a helpers which will automatically
 generate the buttons and the javascript required to let
 your users log into your application using Google:
-     * **h.googleplusauth.login_button(client_id, scope=None, data_cookiepolicy=None, img_btn_login=None, remember=None)**
+
+    * **h.googleplusauth.login_button(client_id, scope=None, data_cookiepolicy=None, img_btn_login=None, remember=None)**
         Places a login/registration button, automatically creates a new user if he never logged with google, otherwise simply logs him in.
 
         The ``client_id`` parameter is YOUR_CLIENT_ID.apps.googleusercontent.com
@@ -60,20 +61,20 @@ This is the html of the button, if you want customize the button style: ::
     </div>
 
 Available Hooks
-----------------------
+---------------
 
 googleplusauth makes available a some hooks which will be
 called during some actions to alter the default
 behavior of the appplications:
 
     * **googleplusauth.on_registration(google_response, user)** -> Runs when it is registering a new user from google
-     login, permits to add or modify additional data to the user.
-    * **googleplusauth.on_login(google_response, user)** -> Runs when user perform google login, permits to update the
-     user data.
+        login, permits to add or modify additional data to the user.
+    * **googleplusauth.on_login(google_response, user)** -> Runs when user perform google login,
+        permits to update the user data.
 
 
 Google Id and Profile Picture
------------------------
+------------------------------
 
 Users will have a new related entity called ``googleplusauth``.
 Accessing ``user.googleplusauth`` it is possible to access the user ``user.googleplusauth.google_id``
