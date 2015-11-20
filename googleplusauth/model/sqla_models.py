@@ -23,7 +23,7 @@ class GoogleAuth(DeclarativeBase):
     user = relation(app_model.User, backref=backref('googleplusauth', uselist=False, cascade='all, delete-orphan'))
 
     google_id = Column(Unicode(255), nullable=False, index=True, unique=True)
-    access_token = Column(Unicode(255), nullable=False)
+    access_token = Column(Unicode(1200), nullable=False)
     access_token_expiry = Column(DateTime, nullable=False)
 
     @classmethod

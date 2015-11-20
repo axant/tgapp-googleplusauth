@@ -21,7 +21,7 @@ except IOError:
 
 setup(
     name='tgapp-googlePlusAuth',
-    version='0.0.1',
+    version='0.0.2',
     description='Google Authentication for TurboGears2',
     long_description=README,
     author='AXANT',
