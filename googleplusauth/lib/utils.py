@@ -2,8 +2,8 @@
 
 import tg
 from datetime import datetime
-from urlparse import urlparse, parse_qs, urlunparse
-from urllib import urlencode
+from six.moves.urllib.parse import urlparse, parse_qs, urlunparse
+from six.moves.urllib.parse import urlencode
 
 
 def redirect_on_fail():

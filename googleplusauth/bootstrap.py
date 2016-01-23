@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """Setup the googleplusauth application"""
-from __future__ import print_function
 
+
+from six import print_
 from googleplusauth import model
 from tgext.pluggable import app_model
 
 
 def bootstrap(command, conf, vars):
 
-    print('Bootstrapping googleplusauth...')
+    print_('Bootstrapping googleplusauth...')
 
     '''
     s1 = model.Sample()
