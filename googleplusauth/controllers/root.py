@@ -8,7 +8,7 @@ from googleplusauth import model
 from googleplusauth.lib.utils import redirect_on_fail, login_user, has_googletoken_expired, add_param_to_query_string
 from tgext.pluggable import app_model
 from datetime import datetime
-from urllib import urlopen
+from six.moves.urllib.request import urlopen
 
 
 class RootController(TGController):
@@ -27,7 +27,7 @@ class RootController(TGController):
         answer = None
 
         try:
-            answer = json.loads(gplusanswer.read())
+            answer = json.loads(gplusanswer.read().decode('utf-8'))
             if answer['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
                 flash(_("Login error"), "error")
                 return redirect_on_fail()
