@@ -1,11 +1,8 @@
-syntax: glob
-
 devdata.db
-.git
 *.pyc
 *.pyo
-.idea
-venv
+.idea/
+venv/
 *.egg
 *.egg-info
 .coverage
