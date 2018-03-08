@@ -3,6 +3,7 @@ devdata.db
 *.pyo
 .idea/
 venv/
+dist/
 *.egg
 .eggs/
 *.egg-info

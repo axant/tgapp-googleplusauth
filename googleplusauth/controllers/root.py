@@ -62,7 +62,12 @@ class RootController(TGController):
         )
         #  Create new user
         hooks.notify('googleplusauth.on_registration', args=(answer, user_dict))
-        u = model.provider.create(app_model.User, user_dict)
+        try:
+            u = model.provider.create(app_model.User, user_dict)
+        except:
+            flash(_('Email address has already been taken'), 'error')
+            model.DBSession.clear()
+            return redirect_on_fail()
 
         #  Create new Google Plus Login User for store data
         gpl = model.GoogleAuth(
