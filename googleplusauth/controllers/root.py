@@ -65,9 +65,16 @@ class RootController(TGController):
         try:
             u = model.provider.create(app_model.User, user_dict)
         except:
-            flash(_('Email address has already been taken'), 'error')
-            model.DBSession.clear()
-            return redirect_on_fail()
+            # clear the session so the user won't be created
+            try:  # ming
+                model.DBSession.clear()
+            except:  # sqlalchemy
+                model.DBSession.expunge_all()
+            # query the user so it will be merged
+            u = model.provider.get_obj(
+                app_model.User,
+                dict(email_address=user_dict['email_address'])
+            )
 
         #  Create new Google Plus Login User for store data
         gpl = model.GoogleAuth(
