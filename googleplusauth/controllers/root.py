@@ -12,12 +12,6 @@ from six.moves.urllib.request import urlopen
 
 
 class RootController(TGController):
-    @expose('googleplusauth.templates.index')
-    def index(self):
-        user = model.provider.query(app_model.User, filters=dict(email_address="manager@somedomain.com"))[1][0]
-        flash(_("Hello World!"))
-        return dict(sample=user)
-
     @expose()
     def login(self, token, came_from=None, remember=None):
         gplusanswer = urlopen('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=%s' % token)

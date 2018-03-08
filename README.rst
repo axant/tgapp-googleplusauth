@@ -26,8 +26,6 @@ Then at the *end of the file* call plug with googleplusauth::
 
     plug(base_config, 'googleplusauth')
 
-You will be able to access the plugged application at
-*http://localhost:8080/googleplusauth*.
 
 Googleplushaut Helpers
 ----------------------

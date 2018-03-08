@@ -4,6 +4,7 @@ devdata.db
 .idea/
 venv/
 *.egg
+.eggs/
 *.egg-info
 .coverage
 *.swp
