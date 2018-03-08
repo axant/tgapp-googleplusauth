@@ -64,7 +64,7 @@ class RootController(TGController):
             user_name='g+:%s' % google_id,
             email_address=answer['email'],
             password=token,
-            display_name=answer['email']
+            display_name=answer['name']
         )
         #  Create new user
         hooks.notify('googleplusauth.on_registration', args=(answer, user_dict))
