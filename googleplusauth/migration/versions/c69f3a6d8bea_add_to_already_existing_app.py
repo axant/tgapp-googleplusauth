@@ -16,7 +16,7 @@ def upgrade():
         sa.Column('profile_picture', sa.String(512), nullable=True),
         sa.Column('user_id', sa.Integer(), nullable=False),
         sa.Column('google_id', sa.Unicode(255), nullable=False),
-        sa.Column('access_token', sa.Unicode(1200), nullable=False),
+        sa.Column('access_token', sa.UnicodeText, nullable=False),
         sa.Column('access_token_expiry', sa.DateTime(), nullable=False),
     )
     op.create_unique_constraint('uq_google_id', 'googleplusauth_info', ['google_id'])

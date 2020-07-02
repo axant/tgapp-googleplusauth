@@ -2,7 +2,7 @@
 
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.types import Unicode, Integer, DateTime, Boolean, String
+from sqlalchemy.types import Unicode, Integer, DateTime, Boolean, String, UnicodeText
 from sqlalchemy.orm import backref, relation, deferred
 from googleplusauth.model import DBSession
 from tgext.pluggable import app_model, primary_key
@@ -23,7 +23,7 @@ class GoogleAuth(DeclarativeBase):
     user = relation(app_model.User, backref=backref('googleplusauth', uselist=False, cascade='all, delete-orphan'))
 
     google_id = Column(Unicode(255), nullable=False, index=True, unique=True)
-    access_token = Column(Unicode(1200), nullable=False)
+    access_token = Column(UnicodeText, nullable=False)
     access_token_expiry = Column(DateTime, nullable=False)
 
     @classmethod
