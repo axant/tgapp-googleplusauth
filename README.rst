@@ -11,7 +11,7 @@ Installing
 
 googleplusauth can be installed both from pypi or from bitbucket::
 
-    pip install googleplusauth
+    pip install tgapp-googleplusauth
 
 should just work for most of the users
 
@@ -26,6 +26,11 @@ Then at the *end of the file* call plug with googleplusauth::
 
     plug(base_config, 'googleplusauth')
 
+on a sql database, to create the table, you can run the migration(s) with::
+
+  gearbox migrate-pluggable -c development.ini googleplusauth upgrade
+
+or if you can still drop the database, `setup-app` should be just fine.
 
 Googleplushaut Helpers
 ----------------------
