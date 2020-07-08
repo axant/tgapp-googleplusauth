@@ -4,17 +4,27 @@ from tg import TGController, config, hooks
 from tg import expose, flash, redirect
 from tg.i18n import ugettext as _
 import json
+import logging
 from googleplusauth import model
 from googleplusauth.lib.utils import redirect_on_fail, login_user, has_googletoken_expired, add_param_to_query_string
 from tgext.pluggable import app_model
 from datetime import datetime
 from six.moves.urllib.request import urlopen
+from six.moves.urllib.error import HTTPError
+
+
+log = logging.getLogger(__name__)
 
 
 class RootController(TGController):
     @expose()
     def login(self, token, came_from=None, remember=None):
-        gplusanswer = urlopen('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=%s' % token)
+        try:
+            gplusanswer = urlopen('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=%s' % token)
+        except HTTPError as ex:
+            log.error(ex.file.read())
+            flash(_('Google auth failed, probably token expired'), 'error')
+            return redirect('/login')
         google_id = None
         google_token_expiry = None
         google_email = None

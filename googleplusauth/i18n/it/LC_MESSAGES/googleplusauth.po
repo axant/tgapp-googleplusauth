@@ -1,0 +1,39 @@
+# Italian translations for tgapp-googlePlusAuth.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the
+# tgapp-googlePlusAuth
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tgapp-googlePlusAuth 0.0.8\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-07-08 17:58+0200\n"
+"PO-Revision-Date: 2020-07-08 18:02+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: it\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: googleplusauth/controllers/root.py:26
+msgid "Google auth failed, probably token expired"
+msgstr "Autenticazione Google fallita, probabilmente il token è scaduto"
+
+#: googleplusauth/controllers/root.py:36 googleplusauth/controllers/root.py:39
+#: googleplusauth/controllers/root.py:112
+msgid "Login error"
+msgstr "Login fallito"
+
+#: googleplusauth/controllers/root.py:46
+msgid "Fatal error while trying to contact Google"
+msgstr "Errore Fatale contattando Google"
+
+#: googleplusauth/templates/little_partial.html:4
+msgid "This is from partial:"
+msgstr "REMOVE ME"
+

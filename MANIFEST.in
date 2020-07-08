@@ -1,5 +1,6 @@
 recursive-include googleplusauth/migration *
 recursive-include googleplusauth/public *
+recursive-include googleplusauth/i18n *.mo
 recursive-include googleplusauth/templates *.html
 global-exclude *.pyc
 
