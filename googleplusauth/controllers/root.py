@@ -69,7 +69,10 @@ class RootController(TGController):
             try:  # ming
                 model.DBSession.clear()
             except:  # sqlalchemy
+                import transaction
                 model.DBSession.expunge_all()
+                model.DBSession.rollback()
+                transaction.abort()
             # query the user so it will be merged
             u = model.provider.query(
                 app_model.User,
