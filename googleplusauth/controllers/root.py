@@ -71,10 +71,10 @@ class RootController(TGController):
             except:  # sqlalchemy
                 model.DBSession.expunge_all()
             # query the user so it will be merged
-            u = model.provider.get_obj(
+            u = model.provider.query(
                 app_model.User,
-                dict(email_address=user_dict['email_address'])
-            )
+                filters=dict(email_address=user_dict['email_address']),
+            )[1][0]
 
         #  Create new Google Plus Login User for store data
         gpl = model.GoogleAuth(
